@@ -9,11 +9,10 @@ namespace Luna
 	{
 		public static async Task StartProcess()
 		{
-			string input = "";
 			while(true)
 			{
 				Program.writeMutex.WaitOne();
-				input = Console.ReadLine();
+				string input = Console.ReadLine();
 				string[] tokens = input.Split(" ");
 				switch(tokens[0].ToLower())
 				{
@@ -41,6 +40,11 @@ namespace Luna
 					case "clear":
 					{
 						Console.Clear();
+					}
+					break;
+					case "tcp":
+					{
+						TcpProcess.sendData(input.Substring(tokens[0].Length + 1));
 					}
 					break;
 				}
