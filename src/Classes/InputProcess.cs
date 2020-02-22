@@ -61,6 +61,11 @@ namespace Luna
 						Program.tcpProcess.sendData(input.Substring(tokens[0].Length + 1));
 					}
 					break;
+					case "disconnect":
+					{
+							Program.tcpProcess.disconnect();
+					}
+					break;
 				}
 				Program.writeMutex.ReleaseMutex();
 			}

@@ -7,6 +7,7 @@ namespace Luna
 {
     public class TcpProcess
     {
+        private bool disposed = false;
         private TcpConfig config;
         private TcpClient client = new TcpClient();
         private NetworkStream ns;
@@ -22,24 +23,29 @@ namespace Luna
         
         private void startConnection()
         {
-            client.Connect("10.0.0.200",50301);
+            client.Connect(config.host,config.port);
             ns = client.GetStream();
 
-            sendData("derpa");
+            sendData(config.password);
 			beginDataRead();
 		}
 
         public void sendData(string s)
         {
-            ns.Write(System.Text.Encoding.ASCII.GetBytes(s + '\n'),0,s.Length + 1);
+			if(client.Connected == false)
+			{
+				Program.WriteLine("\t not connected", ConsoleColor.DarkMagenta);
+			}
+			else
+				ns.Write(System.Text.Encoding.ASCII.GetBytes(s + '\n'),0,s.Length + 1);
         }
 
         private async Task beginDataRead()
         {
             StreamReader reader = new StreamReader(ns);
-            while(true)
+            while(!disposed)
 			{
-                 string chunk = reader.ReadLine();
+                string chunk = reader.ReadLine();
                 DataChunkReceived(chunk);
 			}
         }
@@ -49,5 +55,9 @@ namespace Luna
             Program.WriteLine(s, ConsoleColor.DarkMagenta);
         }
 
+        internal void disconnect()
+        {
+            client.Close();
+        }
     }
 }

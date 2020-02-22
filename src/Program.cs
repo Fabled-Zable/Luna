@@ -33,7 +33,7 @@ namespace Luna
             _ = StartInput();
             _ = StartTcp(tcpConfig);
 			
-			await Task.Delay(0);
+			await Task.Delay(-1);
         }
 
 		public static Mutex writeMutex = new Mutex();
