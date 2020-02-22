@@ -25,9 +25,7 @@ namespace Luna
 					case "henlo":
 					case "hello":
 					{
-						Random r = new Random();
-						string[] response = {"Hello!", "Go away >:(", "Hi", "Don't talk to me before I've had my coffee", "Hoi", "Henlo"};
-						writeLine(response[r.Next(0,response.Length)]);
+						Program.greet();
 					}
 					break;
 					case "help":

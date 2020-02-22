@@ -9,6 +9,32 @@ namespace Luna
 {
     static class Program
     {
+        readonly static string[] greetings = {"Hello","Hi!","Welcome!", "Hoi", "Henlo"};
+        readonly static string[] emotes = {":D",":)","C:",":P",":o"};
+        public static void greet()
+        {
+            Random random = new Random();
+            string greeting = greetings[random.Next(0,greetings.Length)] + " " + emotes[random.Next(emotes.Length)];
+            if(random.Next(100) == 69)
+            {
+                greeting = "Ugh. Don't talk to me until i've had my coffee D:";
+            }
+            
+            ConsoleColor[] colors = {ConsoleColor.Red,ConsoleColor.Yellow,ConsoleColor.Green,ConsoleColor.Blue,ConsoleColor.Magenta};
+
+            int offset = random.Next(colors.Length);
+            for(int i = 0; i < greeting.Length; i++)
+            {
+                Console.ForegroundColor = colors[((i + offset)%colors.Length)];
+                char c = greeting[i];
+                if(c == ' '){offset--;}
+                Console.Write(c);
+            }
+            Console.Write('\n');
+            Console.ResetColor();
+        }
+
+
         public static InputProcess inputProcess;
         public static TcpProcess tcpProcess;
         public static TcpConfig tcpConfig;
@@ -17,6 +43,7 @@ namespace Luna
         static async Task Main(string[] args)
         {
             Console.Title = "Luna";
+            greet();
             tcpConfig = new TcpConfig();
 
             if(!Directory.Exists("storage"))
