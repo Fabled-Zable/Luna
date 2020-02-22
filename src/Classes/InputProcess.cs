@@ -5,17 +5,31 @@ using System.Threading.Tasks;
 
 namespace Luna
 {
-	public static class InputProcess
+	public class InputProcess
 	{
-		public static async Task StartProcess()
+		public async Task StartProcess()
 		{
 			while(true)
 			{
+				Console.CursorVisible = false;
+				Console.ReadKey(true);
+				Console.CursorVisible = true;
 				Program.writeMutex.WaitOne();
+				Console.Write(">");
 				string input = Console.ReadLine();
 				string[] tokens = input.Split(" ");
 				switch(tokens[0].ToLower())
-				{
+				{	
+					case "hi":
+					case "hoi":
+					case "henlo":
+					case "hello":
+					{
+						Random r = new Random();
+						string[] response = {"Hello!", "Go away >:(", "Hi", "Don't talk to me before I've had my coffee", "Hoi", "Henlo"};
+						writeLine(response[r.Next(0,response.Length)]);
+					}
+					break;
 					case "help":
 					{
 						writeLine("Not implemented");
@@ -44,7 +58,7 @@ namespace Luna
 					break;
 					case "tcp":
 					{
-						TcpProcess.sendData(input.Substring(tokens[0].Length + 1));
+						Program.tcpProcess.sendData(input.Substring(tokens[0].Length + 1));
 					}
 					break;
 				}
@@ -52,11 +66,11 @@ namespace Luna
 			}
 		}
 
-		private static void writeLine(string s)
+		private void writeLine(string s)
 		{
 			write(s + '\n');
 		}
-		private static void write(string s)
+		private void write(string s)
 		{
 			Console.ForegroundColor = ConsoleColor.DarkGray;
 			Console.Write("\t" + s);

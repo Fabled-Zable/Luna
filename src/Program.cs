@@ -7,8 +7,11 @@ using Newtonsoft.Json;
 
 namespace Luna
 {
-    class Program
+    static class Program
     {
+        public static InputProcess inputProcess;
+        public static TcpProcess tcpProcess;
+
         public static List<Task> tasks = new List<Task>();
         static async Task Main(string[] args)
         {
@@ -34,22 +37,34 @@ namespace Luna
         }
 
 		public static Mutex writeMutex = new Mutex();
-		public static void WriteLine(string s)
+		public static void WriteLine(string s, ConsoleColor color = ConsoleColor.White)
         {
             writeMutex.WaitOne();
+            Console.ForegroundColor = color;
             Console.WriteLine(s);
+            Console.ResetColor();
             writeMutex.ReleaseMutex();
         }
 
 
         static async Task StartTcp(TcpConfig tcpConfig)
         {
-            await TcpProcess.StartProcess(tcpConfig);
+            while(true)
+            {
+                tcpProcess = new TcpProcess();
+                await tcpProcess.StartProcess(tcpConfig);
+                WriteLine("TcpProcess ended, restarting...");
+            }   
         }
         static async Task StartInput()
         {
             await Task.Delay(100);//tcp doesn't run if you don't do this
-			await InputProcess.StartProcess();
+            while(true)
+            {
+                inputProcess = new InputProcess();
+			    await inputProcess.StartProcess();
+                WriteLine("Input ended, restarting...");
+            }
         }
     }
 }

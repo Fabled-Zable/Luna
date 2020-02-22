@@ -5,14 +5,14 @@ using System.Net.Sockets;
 
 namespace Luna
 {
-    public static class TcpProcess
+    public class TcpProcess
     {
-        private static TcpConfig config;
-        private static TcpClient client = new TcpClient();
-        private static NetworkStream ns;
+        private TcpConfig config;
+        private TcpClient client = new TcpClient();
+        private NetworkStream ns;
 
 
-        public static async Task StartProcess(TcpConfig _config)
+        public async Task StartProcess(TcpConfig _config)
         {
 			Console.WriteLine("Starting Tcp");
 			config = _config;
@@ -20,21 +20,21 @@ namespace Luna
             startConnection();
 		}
         
-        private static void startConnection()
+        private void startConnection()
         {
             client.Connect("10.0.0.200",50301);
             ns = client.GetStream();
 
             sendData("derpa");
-        }
+			beginDataRead();
+		}
 
-        public static void sendData(string s)
+        public void sendData(string s)
         {
             ns.Write(System.Text.Encoding.ASCII.GetBytes(s + '\n'),0,s.Length + 1);
-            beginDataRead();
         }
 
-        private static async Task beginDataRead()
+        private async Task beginDataRead()
         {
             StreamReader reader = new StreamReader(ns);
             while(true)
@@ -44,14 +44,9 @@ namespace Luna
 			}
         }
 
-        private static void DataChunkReceived(string s)
+        private void DataChunkReceived(string s)
         {
-            if(config.logLevel == LogLevel.all)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Program.WriteLine('\t' + s);
-                Console.ResetColor();
-            }
+            Program.WriteLine(s, ConsoleColor.DarkMagenta);
         }
 
     }
