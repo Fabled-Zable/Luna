@@ -11,12 +11,13 @@ namespace Luna
     {
         public static InputProcess inputProcess;
         public static TcpProcess tcpProcess;
+        public static TcpConfig tcpConfig;
 
         public static List<Task> tasks = new List<Task>();
         static async Task Main(string[] args)
         {
             Console.Title = "Luna";
-            TcpConfig tcpConfig = new TcpConfig();
+            tcpConfig = new TcpConfig();
 
             if(!Directory.Exists("storage"))
             {
@@ -47,18 +48,16 @@ namespace Luna
         }
 
 
-        static async Task StartTcp(TcpConfig tcpConfig)
+        public static async Task StartTcp(TcpConfig tcpConfig)
         {
-            while(true)
-            {
-                tcpProcess = new TcpProcess();
-                await tcpProcess.StartProcess(tcpConfig);
-                WriteLine("TcpProcess ended, restarting...");
-            }   
+			await Task.Delay(50);//I'm sure I'm doing something wrong with async if I have to do this
+            tcpProcess = new TcpProcess();
+            await tcpProcess.StartProcess(tcpConfig);
+            WriteLine("TcpProcess ended");
         }
         static async Task StartInput()
         {
-            await Task.Delay(100);//tcp doesn't run if you don't do this
+            await Task.Delay(50);//tcp doesn't run if you don't do this
             while(true)
             {
                 inputProcess = new InputProcess();

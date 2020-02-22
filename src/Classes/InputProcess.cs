@@ -66,6 +66,36 @@ namespace Luna
 							Program.tcpProcess.disconnect();
 					}
 					break;
+					case "connect":
+					{
+						if(tokens.Length <= 3)
+						{
+							writeLine("Usage: connect host port password\nexample: connect 127.0.0.1 50301 hahayouwillneverguessthis");
+						}
+
+						string host = tokens[1];
+						int port = -1;
+						try
+						{
+							port = ushort.Parse(tokens[2]);
+						}
+						catch(FormatException)
+						{
+							writeLine("Could not parse port");
+						}
+
+						if(port != -1)
+						{
+							TcpConfig config = new TcpConfig();
+							config.host = host;
+							config.port = (ushort)port;
+							config.password = tokens[2];
+							config.logLevel = Program.tcpConfig.logLevel;
+							Program.tcpProcess.disconnect();
+							Program.StartTcp(config);
+						}
+					}
+					break;
 				}
 				Program.writeMutex.ReleaseMutex();
 			}

@@ -15,11 +15,20 @@ namespace Luna
 
         public async Task StartProcess(TcpConfig _config)
         {
-			Console.WriteLine("Starting Tcp");
 			config = _config;
 
             startConnection();
 		}
+
+        public async Task StartProcess(TcpConfig _config, string host, ushort port, string password)
+        {
+            config = _config;
+            config.host = host;
+            config.port = port;
+            config.password = password;
+
+            startConnection();
+        }
         
         private void startConnection()
         {
