@@ -94,6 +94,48 @@ namespace Luna
 						}
 					}
 					break;
+					case "reconnect":
+					case "recon":
+					{
+						TcpConfig config = Program.tcpProcess.config;
+						Program.tcpProcess.disconnect();
+						Program.tcpProcess = new TcpProcess();
+						Program.StartTcp(config);
+					}
+					break;
+					case "setloglevel":
+					{
+						if(tokens.Length == 3 )
+						{
+							string type = tokens[1];
+							string sLevel = tokens[2];
+
+							object level;
+							
+							bool success = Enum.TryParse(typeof(LogLevel), sLevel, ignoreCase:true, out level );
+							if(success)
+							{
+								if(tokens[1] == "tcp")
+								{
+									Program.tcpProcess.config.logLevel = (LogLevel)level;
+								}
+								else if(tokens[1] == "discord")
+								{
+									writeLine("not implemented");
+								}
+								writeLine($"Log level set to {Program.tcpProcess.config.logLevel}");
+							}
+							else
+							{
+								writeLine("Failed parsing");
+							}
+						}
+						else
+						{
+							writeLine("Usage setloglevel {tcp | discord} {none | print | all}");
+						}
+					}
+					break;
 				}
 				Program.writeMutex.ReleaseMutex();
 			}
