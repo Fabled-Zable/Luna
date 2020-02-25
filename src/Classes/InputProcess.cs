@@ -87,8 +87,8 @@ namespace Luna
 							TcpConfig config = new TcpConfig();
 							config.host = host;
 							config.port = (ushort)port;
-							config.password = tokens[2];
-							config.logLevel = Program.tcpConfig.logLevel;
+							config.password = tokens[3];
+							config.logLevel = Program.tcpProcess.config.logLevel;
 							Program.tcpProcess.disconnect();
 							Program.StartTcp(config);
 						}
