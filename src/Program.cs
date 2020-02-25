@@ -10,7 +10,7 @@ namespace Luna
     static class Program
     {
         readonly static string[] greetings = {"Hello","Hi!","Welcome!", "Hoi", "Henlo"};
-        readonly static string[] emotes = {":D",":)","C:",":P",":o"};
+        readonly static string[] emotes = {":D",":)","C:",":P",":o","\\(OuO)/"};
         public static void greet()
         {
             Random random = new Random();
@@ -20,7 +20,7 @@ namespace Luna
                 greeting = "Ugh. Don't talk to me until i've had my coffee D:";
             }
             
-            ConsoleColor[] colors = {ConsoleColor.Red,ConsoleColor.Yellow,ConsoleColor.Green,ConsoleColor.Blue,ConsoleColor.Magenta};
+            ConsoleColor[] colors = {ConsoleColor.Red,ConsoleColor.Yellow,ConsoleColor.Green,ConsoleColor.Cyan,ConsoleColor.Blue,ConsoleColor.Magenta};
 
             int offset = random.Next(colors.Length);
             for(int i = 0; i < greeting.Length; i++)
@@ -37,16 +37,15 @@ namespace Luna
 
         public static InputProcess inputProcess;
         public static TcpProcess tcpProcess;
-        public static TcpConfig tcpConfig;
 
         public static List<Task> tasks = new List<Task>();
         static async Task Main(string[] args)
         {
             Console.Title = "Luna";
             greet();
-            tcpConfig = new TcpConfig();
+            TcpConfig tcpConfig = new TcpConfig();
 
-            if(!Directory.Exists("storage"))
+            if(!Directory.Exists("storage"))//todo, refactor file stuff
             {
                 Console.WriteLine("storage directory not found, creating");
                 Directory.CreateDirectory("storage");

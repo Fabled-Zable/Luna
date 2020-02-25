@@ -8,7 +8,7 @@ namespace Luna
     public class TcpProcess
     {
         private bool disposed = false;
-        private TcpConfig config;
+        public TcpConfig config;
         private TcpClient client = new TcpClient();
         private NetworkStream ns;
 
@@ -30,13 +30,14 @@ namespace Luna
             startConnection();
         }
         
-        private void startConnection()
+        private async Task startConnection()
         {
             client.Connect(config.host,config.port);
             ns = client.GetStream();
-
             sendData(config.password);
-			beginDataRead();
+            sendData($"print('Luna has connected :D');");
+            
+			await beginMainLoop();
 		}
 
         public void sendData(string s)
@@ -49,10 +50,10 @@ namespace Luna
 				ns.Write(System.Text.Encoding.ASCII.GetBytes(s + '\n'),0,s.Length + 1);
         }
 
-        private async Task beginDataRead()
+        private async Task beginMainLoop()
         {
             StreamReader reader = new StreamReader(ns);
-            while(!disposed)
+            while(client.Connected)
 			{
                 string chunk = reader.ReadLine();
                 DataChunkReceived(chunk);
@@ -61,7 +62,8 @@ namespace Luna
 
         private void DataChunkReceived(string s)
         {
-            Program.WriteLine(s, ConsoleColor.DarkMagenta);
+            if(config.logLevel == LogLevel.all)
+                Program.WriteLine(s, ConsoleColor.DarkMagenta);
         }
 
         internal void disconnect()
