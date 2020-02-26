@@ -4,38 +4,55 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 using Newtonsoft.Json;
-
 namespace Luna
 {
     static class Program
     {
+        readonly static ConsoleColor favoriteColor = ConsoleColor.DarkGray;
         readonly static string[] greetings = {"Hello","Hi!","Welcome!", "Hoi", "Henlo","hai"};
         readonly static string[] emotes = {":D",":)","(:","C:",":p","d:",":o","o:","\\(OuO)/"};
+        public readonly static ConsoleColor[] rainbowColors = {ConsoleColor.Red,ConsoleColor.Yellow,ConsoleColor.Green,ConsoleColor.Cyan,ConsoleColor.Blue,ConsoleColor.Magenta};
+
+        public static void multiColorPrint(string text, ConsoleColor[] colors, int offset = 0)
+        {
+            ConsoleColor originalColor = Console.ForegroundColor;
+            for(int i = 0; i < text.Length; i++)
+            {
+                Console.ForegroundColor = colors[(i + offset)%colors.Length];
+                char c = text[i];
+                if(c == ' '){offset--;}
+                Console.Write(c);
+            }
+            Console.ForegroundColor = originalColor;
+
+        }
+
         public static void greet()
         {
+            DateTime date = DateTime.Now;
+
             bool rainbow = true;
             Random random = new Random();
             string greeting = greetings[random.Next(0,greetings.Length)] + " " + emotes[random.Next(emotes.Length)];
+            bool birthday = date.Day == 20 && date.Month == 2;
+            if(birthday)
+            {
+                greeting = $"Happy birthday to me! <3\nI am now {date.Year - 2020} years old!";
+            }
             if(random.Next(100) == 69)
             {
-                greeting = "Ugh! DON'T TALK TO ME UNTIL I'VE HAD MY MORNING COFFEE! >:(";
+                greeting = "Ugh! DON'T TALK TO ME UNTIL I'VE HAD MY COFFEE! >:(" + (birthday ? "\n... even if it is my birthday..." : "");
                 rainbow = false;
             }
-            
-            ConsoleColor[] colors = {ConsoleColor.Red,ConsoleColor.Yellow,ConsoleColor.Green,ConsoleColor.Cyan,ConsoleColor.Blue,ConsoleColor.Magenta};
+            ConsoleColor[] colors = rainbowColors;
             if(!rainbow)
             {
                 colors = new ConsoleColor[] {ConsoleColor.Red, ConsoleColor.DarkRed};
             }
             int offset = random.Next(colors.Length);
-            for(int i = 0; i < greeting.Length; i++)
-            {
-                Console.ForegroundColor = colors[((i + offset)%colors.Length)];
-                char c = greeting[i];
-                if(c == ' '){offset--;}
-                Console.Write(c);
-            }
-            Console.Write('\n');
+            Console.ForegroundColor = favoriteColor;
+            Console.Write("Luna: ");
+            multiColorPrint(greeting + '\n',colors,offset);
             Console.ResetColor();
         }
 
