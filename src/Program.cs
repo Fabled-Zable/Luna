@@ -9,8 +9,8 @@ namespace Luna
 {
     static class Program
     {
-        readonly static string[] greetings = {"Hello","Hi!","Welcome!", "Hoi", "Henlo"};
-        readonly static string[] emotes = {":D",":)","C:",":P",":o","\\(OuO)/"};
+        readonly static string[] greetings = {"Hello","Hi!","Welcome!", "Hoi", "Henlo","hai"};
+        readonly static string[] emotes = {":D",":)","(:","C:",":p","d:",":o","o:","\\(OuO)/"};
         public static void greet()
         {
             Random random = new Random();
