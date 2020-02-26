@@ -9,7 +9,8 @@ namespace Luna
 	{
 		public async Task StartProcess()
 		{
-			while(true)
+			bool running = true;
+			while(running)
 			{
 				Console.CursorVisible = false;
 				Console.ReadKey(true);
@@ -43,6 +44,7 @@ namespace Luna
 							write("Are you sure you want to exit? [y/*]");
 							if(Console.ReadKey().Key == ConsoleKey.Y)
 							{
+								running = false;
 								Environment.Exit(0);
 							}
 						Console.WriteLine("");
@@ -139,6 +141,7 @@ namespace Luna
 				}
 				Program.writeMutex.ReleaseMutex();
 			}
+			await Task.CompletedTask;
 		}
 
 		private void writeLine(string s)

@@ -7,7 +7,6 @@ namespace Luna
 {
     public class TcpProcess
     {
-        private bool disposed = false;
         public TcpConfig config;
         private TcpClient client = new TcpClient();
         private NetworkStream ns;
@@ -17,7 +16,7 @@ namespace Luna
         {
 			config = _config;
 
-            startConnection();
+            await startConnection();
 		}
 
         public async Task StartProcess(TcpConfig _config, string host, ushort port, string password)
@@ -27,7 +26,7 @@ namespace Luna
             config.port = port;
             config.password = password;
 
-            startConnection();
+            await startConnection();
         }
         
         private async Task startConnection()
@@ -58,6 +57,8 @@ namespace Luna
                 string chunk = reader.ReadLine();
                 DataChunkReceived(chunk);
 			}
+            
+            await Task.CompletedTask;
         }
 
         private void DataChunkReceived(string s)
