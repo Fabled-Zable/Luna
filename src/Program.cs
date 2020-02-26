@@ -13,15 +13,20 @@ namespace Luna
         readonly static string[] emotes = {":D",":)","(:","C:",":p","d:",":o","o:","\\(OuO)/"};
         public static void greet()
         {
+            bool rainbow = true;
             Random random = new Random();
             string greeting = greetings[random.Next(0,greetings.Length)] + " " + emotes[random.Next(emotes.Length)];
             if(random.Next(100) == 69)
             {
-                greeting = "Ugh. Don't talk to me until i've had my coffee D:";
+                greeting = "Ugh! DON'T TALK TO ME UNTIL I'VE HAD MY MORNING COFFEE! >:(";
+                rainbow = false;
             }
             
             ConsoleColor[] colors = {ConsoleColor.Red,ConsoleColor.Yellow,ConsoleColor.Green,ConsoleColor.Cyan,ConsoleColor.Blue,ConsoleColor.Magenta};
-
+            if(!rainbow)
+            {
+                colors = new ConsoleColor[] {ConsoleColor.Red, ConsoleColor.DarkRed};
+            }
             int offset = random.Next(colors.Length);
             for(int i = 0; i < greeting.Length; i++)
             {

@@ -41,12 +41,12 @@ namespace Luna
 					break;
 					case "exit":
 					{
-							write("Are you sure you want to exit? [y/*]");
-							if(Console.ReadKey().Key == ConsoleKey.Y)
-							{
-								running = false;
-								Environment.Exit(0);
-							}
+						write("Are you sure you want to exit? [y/*]");
+						if(Console.ReadKey().Key == ConsoleKey.Y)
+						{
+							running = false;
+							Environment.Exit(0);
+						}
 						Console.WriteLine("");
 					}
 					break;
