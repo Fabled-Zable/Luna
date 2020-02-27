@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Luna
@@ -19,15 +17,24 @@ namespace Luna
 				Console.Write(">");
 				string input = Console.ReadLine();
 				string[] tokens = input.Split(" ");
-				switch(tokens[0].ToLower())
-				{	
-					case "hi":
-					case "hoi":
-					case "henlo":
-					case "hello":
+
+				bool wasGreeting = false;
+				foreach(string greeting in Program.greetings)
+				{
+					if(greeting.Replace("!","").ToLower() == tokens[0].ToLower().Replace("!",""))
 					{
-						Program.greet();
+						wasGreeting = true;
+						break;
 					}
+				}
+				if(wasGreeting)
+				{
+					Program.greet();
+				}
+				else switch(tokens[0].ToLower())
+				{	
+					case "beep":
+						Program.multiColorPrint("Beep beep lettuce!",Program.rainbowColors,new Random().Next(Program.rainbowColors.Length));
 					break;
 					case "help":
 					{
