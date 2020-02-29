@@ -46,10 +46,18 @@ namespace Luna
                 rainbow = false;
                 colors = new ConsoleColor[] {ConsoleColor.Red, ConsoleColor.DarkRed};
             }
-            int offset = random.Next(colors.Length);
+            lunaSay(greeting + '\n',colors);
+        }
+
+        public static void lunaSay(string s)
+        {
+            lunaSay(s,rainbowColors);
+        }
+        public static void lunaSay(string s, ConsoleColor[] colors)
+        {
             Console.ForegroundColor = favoriteColor;
             Console.Write("Luna: ");
-            multiColorPrint(greeting + '\n',colors,offset);
+            multiColorPrint(s,colors, new Random().Next(colors.Length));
             Console.ResetColor();
         }
 

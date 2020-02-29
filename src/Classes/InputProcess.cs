@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Luna
@@ -18,20 +19,7 @@ namespace Luna
 				string input = Console.ReadLine();
 				string[] tokens = input.Split(" ");
 
-				bool wasGreeting = false;
-				foreach(string greeting in Program.greetings)
-				{
-					if(greeting.Replace("!","").ToLower() == tokens[0].ToLower().Replace("!",""))
-					{
-						wasGreeting = true;
-						break;
-					}
-				}
-				if(wasGreeting)
-				{
-					Program.greet();
-				}
-				else switch(tokens[0].ToLower())
+				switch(tokens[0].ToLower())
 				{	
 					case "beep":
 						Program.multiColorPrint("Beep beep lettuce!",Program.rainbowColors,new Random().Next(Program.rainbowColors.Length));
@@ -52,6 +40,7 @@ namespace Luna
 						if(Console.ReadKey().Key == ConsoleKey.Y)
 						{
 							running = false;
+							Program.lunaSay("Goodbye!");
 							Environment.Exit(0);
 						}
 						Console.WriteLine("");
@@ -145,6 +134,29 @@ namespace Luna
 						}
 					}
 					break;
+
+					default:
+						bool wasGreeting = false;
+						foreach(string greeting in Program.greetings)
+						{
+							if(greeting.Replace("!","").ToLower() == tokens[0].ToLower().Replace("!",""))
+							{
+								wasGreeting = true;
+								break;
+							}
+						}
+						if(wasGreeting)
+						{
+							Program.greet();
+						}
+						else
+						{
+							if( SimpleResponses.ContainsKey(input.ToLower()))
+							{
+								Program.lunaSay(SimpleResponses[input] + '\n');
+							}
+						}
+					break;
 				}
 				Program.writeMutex.ReleaseMutex();
 			}
@@ -161,5 +173,98 @@ namespace Luna
 			Console.Write("\t" + s);
 			Console.ResetColor();
 		}
+
+		
+		public static readonly Dictionary<string,string> SimpleResponses = new Dictionary<string, string>
+		{
+			["how are you"] = 
+			"I'm doing fine",
+
+			["what is your favorite color"] = 
+			"Gray!",
+
+			["when is your birthday"] =
+			"February 20th, 2020!",
+
+			["what is the point"] =
+			"...",
+
+			["yeet"] =
+			"yote",
+
+			["yote"] =
+			"yeet",
+
+			["ping"] = 
+			"pong",
+
+			["pong"] =
+			"ping",
+
+			["zxcvbcbgxgvsvzxcvbcb,mbcbm"] =
+			"I love that song!",
+
+			["bxcvcxzzccbvcxxcvbczz"] =
+			"I love that song!",
+
+			["knokbot"] =
+			"He seemed kinda robotic",
+
+			["luna"] =
+			"Thats me!",
+
+			["sorrn"] =
+			"Was nothing like Rob's Realm of Secrets",
+
+			["wizard wars"] =
+			"Nothing like a good magic duel",
+			["psychomermaid"] =
+			"Oh no I hate having automamy I have no idea",
+
+			["matt"] =
+			"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+
+			["zable"] =
+			"What a nerd",
+
+			["sonic7089"] =
+			"According to all known laws of aviation,  there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground.  The bee, of course, flies anyway  because bees don't care what humans think is impossible.  Yellow, black. Yellow, black.Yellow, black. Yellow, black.  Ooh, black and yellow!Let's shake it up a little.  Barry! Breakfast is ready!  Coming!",
+
+			["numan"] =
+			"Once called TheSadNumanator",
+
+			["carlospaul"] =
+			"carlospaul is an 80 year old cactus with a knack for pooping on cars",
+
+			["glitchgames"] =
+			"*party horn noises*",
+
+			["lordknightscie"] =
+			"the highly unqualified lord of all knights",
+
+			["vamist"] =
+			"meow",
+
+			["tflippy"] =
+			"Flippers",
+
+			["pirate rob"] =
+			"Pop",
+
+			["who are you"] =
+			"Who is anyone?",
+
+			["pi"] =
+			"3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679",
+
+			["joker563"] =
+			"It's barfé!",
+
+			["69"] =
+			"N I C E",
+
+			["it's dangerous to go alone"] =
+			"Take this!"
+		};	
 	}
 }
