@@ -54,7 +54,14 @@ namespace Luna
 					break;
 					case "tcp":
 					{
-						Program.tcpProcess.sendData(input.Substring(tokens[0].Length + 1));
+						if(tokens.Length > 1)
+						{
+							Program.tcpProcess.sendData(input.Substring(tokens[0].Length + 1));
+						}
+						else
+						{
+							writeLine("Usage: tcp command\nExample: tcp print('hello world');");
+						}
 					}
 					break;
 					case "disconnect":
