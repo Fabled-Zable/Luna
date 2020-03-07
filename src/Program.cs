@@ -10,7 +10,8 @@ namespace Luna
     {
         readonly static ConsoleColor favoriteColor = ConsoleColor.DarkGray;
         public readonly static string[] greetings = {"Hello","Hi!","Welcome!", "Hoi", "Henlo","hai", "Hallo","Halloo!","Hullo","Salutations!"};
-        public readonly static string[] emotes = {":D",":)","(:","C:",":p",":o","o:","\\(OuO)/","\\O/"};
+        public readonly static string[] positiveEmotes = {":D",":)","(:","C:",":p",":o","o:","\\(OuO)/","\\O/"};
+        public readonly static string[] negitiveEmotes = {">~<"};
         public readonly static ConsoleColor[] rainbowColors = {ConsoleColor.Red,ConsoleColor.Yellow,ConsoleColor.Green,ConsoleColor.Cyan,ConsoleColor.Blue,ConsoleColor.Magenta};
 
         public static void multiColorPrint(string text, ConsoleColor[] colors, int offset = 0)
@@ -34,7 +35,7 @@ namespace Luna
             bool rainbow = true;
             ConsoleColor[] colors = rainbowColors;
             Random random = new Random();
-            string greeting = greetings[random.Next(0,greetings.Length)] + " " + emotes[random.Next(emotes.Length)];
+            string greeting = greetings[random.Next(0,greetings.Length)] + " " + positiveEmotes[random.Next(positiveEmotes.Length)];
             bool birthday = date.Day == 20 && date.Month == 2;
             if(birthday)
             {
@@ -42,7 +43,7 @@ namespace Luna
             }
             if(random.Next(101) == 69)
             {
-                greeting = "Ugh! DON'T TALK TO ME UNTIL I'VE HAD MY COFFEE! >:(" + (birthday ? "\n... even if it is my birthday..." : "");
+                greeting = "Ugh! DON'T TALK TO ME UNTIL I'VE HAD MY COFFEE! >~<" + (birthday ? "\n... even if it is my birthday..." : "");
                 rainbow = false;
                 colors = new ConsoleColor[] {ConsoleColor.Red, ConsoleColor.DarkRed};
             }
