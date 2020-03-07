@@ -8,15 +8,32 @@ namespace Luna
 	{
 		public async Task StartProcess()
 		{
+			
 			bool running = true;
 			while(running)
 			{
-				Console.CursorVisible = false;
-				Console.ReadKey(true);
-				Console.CursorVisible = true;
+				string input = "";
+				input += Console.ReadKey(true).KeyChar;
 				Program.writeMutex.WaitOne();
-				Console.Write(">");
-				string input = Console.ReadLine();
+				Console.Write(input);
+				while(true)
+				{
+					ConsoleKeyInfo key = Console.ReadKey();
+					if(key.Key == ConsoleKey.Backspace)
+					{
+						if(input.Length < 1){break;}
+						input = input.Substring(0,input.Length-1);
+						Console.Write(" ");
+						Console.SetCursorPosition(Console.CursorLeft -1, Console.CursorTop);
+					}
+					else if(key.Key == ConsoleKey.Enter){break;}
+					else
+					{
+						input += key.KeyChar;
+					}
+				}
+				Console.WriteLine();
+				if(input == ""){continue;}
 				string[] tokens = input.Split(" ");
 
 				switch(tokens[0].ToLower())
